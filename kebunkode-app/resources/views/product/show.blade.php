@@ -8,7 +8,7 @@
     <header class="topbar">
         <nav class="nav shell" aria-label="Navigasi produk">
             <a class="brand" href="{{ route('home') }}">
-                <span class="brand-mark">&lt;/&gt;</span>
+                <span class="brand-mark"><img src="{{ asset('images/logo-icon.png') }}" alt="KebunKode" /></span>
                 <span>kebun<span>kode</span></span>
             </a>
             <div class="breadcrumb">

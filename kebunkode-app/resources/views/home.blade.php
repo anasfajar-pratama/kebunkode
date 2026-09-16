@@ -8,7 +8,7 @@
     <header class="site-header">
         <nav class="nav shell" aria-label="Navigasi utama">
             <a class="brand" href="#beranda" aria-label="KebunKode beranda">
-                <span class="brand-mark">&lt;/&gt;</span>
+                <span class="brand-mark"><img src="{{ asset('images/logo-icon.png') }}" alt="KebunKode" /></span>
                 <span class="brand-name">kebun<span>kode</span></span>
             </a>
             <div class="nav-links" id="navLinks">

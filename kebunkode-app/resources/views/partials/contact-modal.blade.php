@@ -4,7 +4,7 @@
         
         <div class="modal-header">
             <div class="modal-brand">
-                <span class="modal-brand-mark">&lt;/&gt;</span>
+                <span class="modal-brand-mark"><img src="{{ asset('images/logo-icon.png') }}" alt="KebunKode" /></span>
                 <span class="modal-brand-name">kebun<span>kode</span></span>
             </div>
             <h2 class="modal-title">Mulai ngobrol</h2>
@@ -147,11 +147,13 @@
     width: 36px;
     height: 36px;
     color: #17392d;
-    background: #83b66f;
+    background: #fff;
     border-radius: 11px 11px 11px 3px;
     font-weight: 900;
     font-size: 14px;
+    overflow: hidden;
 }
+.modal-brand-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .modal-brand-name {
     font-size: 18px;
     font-weight: 800;

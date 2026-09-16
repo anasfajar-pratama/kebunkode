@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @include('partials.favicon')
     <title>Admin Login — KebunKode</title>
     @vite('resources/css/admin.css')
 </head>
@@ -10,7 +11,7 @@
     <div class="login-card">
         <div class="login-header">
             <div class="login-brand">
-                <span class="login-brand-mark">&lt;/&gt;</span>
+                <span class="login-brand-mark"><img src="{{ asset('images/logo-icon.png') }}" alt="KebunKode" /></span>
                 <span class="login-brand-name">kebun<span>kode</span></span>
             </div>
             <p class="login-subtitle">Panel Administrator</p>

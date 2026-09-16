@@ -54,10 +54,12 @@ button { font: inherit; }
   width: 35px;
   height: 35px;
   color: var(--forest-950);
-  background: var(--leaf);
+  background: #fff;
   border-radius: 11px 11px 11px 3px;
   font-size: 15px;
+  overflow: hidden;
 }
+.brand-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .brand span span { color: var(--leaf); }
 .breadcrumb { display: flex; align-items: center; gap: 10px; color: rgba(247,244,233,.58); font-size: 11px; }
 .breadcrumb strong { color: #f7f4e9; font-weight: 700; }

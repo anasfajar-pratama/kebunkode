@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    @include('partials.favicon')
     <title>@yield('title', 'Admin') — KebunKode</title>
     @vite('resources/css/admin.css')
     @yield('styles')
@@ -12,7 +13,7 @@
     <div class="admin-shell">
         <aside class="sidebar">
             <div class="sidebar-brand">
-                <span class="sidebar-brand-mark">&lt;/&gt;</span>
+                <span class="sidebar-brand-mark"><img src="{{ asset('images/logo-icon.png') }}" alt="KebunKode" /></span>
                 <span class="sidebar-brand-name">kebun<span>kode</span></span>
             </div>
             <nav class="sidebar-nav">
