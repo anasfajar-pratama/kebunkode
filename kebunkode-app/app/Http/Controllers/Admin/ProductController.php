@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductController extends Controller
 {
@@ -29,6 +31,10 @@ class ProductController extends Controller
         $data['tech_stack'] = $this->parseJsonField($request->input('tech_stack_text'));
         $data['faq'] = $this->parseJsonField($request->input('faq_text'));
         $data['meta_pills'] = array_filter(array_map('trim', explode(',', $request->input('meta_pills', ''))));
+
+        if ($request->hasFile('og_image')) {
+            $data['og_image'] = $this->storeOgImage($request->file('og_image'));
+        }
 
         Product::create($data);
 
@@ -55,6 +61,13 @@ class ProductController extends Controller
         $data['faq'] = $this->parseJsonField($request->input('faq_text'));
         $data['meta_pills'] = array_filter(array_map('trim', explode(',', $request->input('meta_pills', ''))));
 
+        if ($request->hasFile('og_image')) {
+            if ($product->og_image) {
+                Storage::disk('public')->delete('seo/' . $product->og_image);
+            }
+            $data['og_image'] = $this->storeOgImage($request->file('og_image'));
+        }
+
         $product->update($data);
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diperbarui.');
@@ -67,6 +80,9 @@ class ProductController extends Controller
             Storage::disk('public')->delete('products/thumbnails/' . $image->filename);
         }
         $product->images()->delete();
+        if ($product->og_image) {
+            Storage::disk('public')->delete('seo/' . $product->og_image);
+        }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus.');
     }
@@ -79,7 +95,6 @@ class ProductController extends Controller
 
     private function validateProduct(Request $request, ?Product $product = null): array
     {
-        $id = $product?->id;
         return $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|in:website,produktif,bisnis',
@@ -93,6 +108,10 @@ class ProductController extends Controller
             'long_description' => 'nullable|string|max:1000',
             'price_display' => 'nullable|string|max:50',
             'price_note' => 'nullable|string|max:100',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
+            'meta_keywords' => 'nullable|string|max:500',
+            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:5120',
         ]);
     }
 
@@ -101,5 +120,19 @@ class ProductController extends Controller
         if (empty($text)) return null;
         $decoded = json_decode($text, true);
         return is_array($decoded) ? $decoded : null;
+    }
+
+    private function storeOgImage($file): string
+    {
+        $manager = new ImageManager(new Driver());
+        $filename = 'product-seo-' . time() . '-' . uniqid() . '.webp';
+
+        $image = $manager->read($file->getRealPath());
+        $image->scaleDown(width: 1200);
+        $encoded = $image->toWebp(quality: 82);
+
+        Storage::disk('public')->put('seo/' . $filename, (string) $encoded);
+
+        return $filename;
     }
 }

@@ -13,6 +13,7 @@ class Product extends Model
         'is_dark_preview', 'long_description', 'features', 'audiences',
         'tech_stack', 'pricing', 'faq', 'meta_pills',
         'price_display', 'price_note', 'is_active',
+        'meta_title', 'meta_description', 'meta_keywords', 'og_image',
     ];
 
     protected $casts = [

@@ -4,7 +4,7 @@
 @section('page-title', isset($product) ? 'Edit Produk' : 'Tambah Produk Baru')
 
 @section('content')
-    <form action="{{ isset($product) ? route('admin.products.update', $product) : route('admin.products.store') }}" method="POST" class="form-layout">
+    <form action="{{ isset($product) ? route('admin.products.update', $product) : route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="form-layout">
         @csrf
         @if(isset($product))
             @method('PUT')
@@ -185,6 +185,41 @@
                         <label for="faq_text">Data FAQ (JSON)</label>
                         <textarea id="faq_text" name="faq_text" rows="5" class="code-input" placeholder='[{"question":"Apakah bisa disesuaikan?","answer":"Bisa, warna dan fitur..."}]'>{{ old('faq_text', isset($product) && $product->faq ? json_encode($product->faq, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : '') }}</textarea>
                         @error('faq_text') <span class="form-error">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3 class="card-title">SEO</h3>
+                    <p class="card-description">Optimasi mesin pencari & preview saat dibagikan. Kosongkan untuk memakai nilai otomatis.</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="meta_title">Meta Title</label>
+                        <input type="text" id="meta_title" name="meta_title" maxlength="255" value="{{ old('meta_title', $product->meta_title ?? '') }}" placeholder="{{ $product->name ?? 'Nama produk' }} — KebunKode" />
+                        @error('meta_title') <span class="form-error">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="meta_description">Meta Description</label>
+                        <textarea id="meta_description" name="meta_description" rows="2" maxlength="500" placeholder="Deskripsi singkat untuk hasil pencarian Google">{{ old('meta_description', $product->meta_description ?? '') }}</textarea>
+                        @error('meta_description') <span class="form-error">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="meta_keywords">Meta Keywords</label>
+                        <input type="text" id="meta_keywords" name="meta_keywords" value="{{ old('meta_keywords', $product->meta_keywords ?? '') }}" placeholder="planner, produktivitas, web app" />
+                        @error('meta_keywords') <span class="form-error">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="og_image">OG Image (1200×630 disarankan)</label>
+                        <input type="file" id="og_image" name="og_image" accept="image/*" />
+                        <span class="form-hint">Otomatis dikonversi ke WebP. Jika kosong, memakai gambar galeri pertama.</span>
+                        @error('og_image') <span class="form-error">{{ $message }}</span> @enderror
+                        @if(isset($product) && $product->og_image)
+                            <div class="seo-image-preview">
+                                <img src="{{ \App\Support\Seo::imageUrl($product->og_image) }}" alt="OG Image" />
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'KebunKode — Petik solusi digitalmu')
-
 @section('styles')
     @vite('resources/css/landing.css')
 @endsection

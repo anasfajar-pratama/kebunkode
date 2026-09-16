@@ -1,8 +1,5 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' — KebunKode')
-@section('description', 'Detail produk ' . $product->name . ' — KebunKode')
-
 @section('styles')
     @vite('resources/css/product.css')
 @endsection

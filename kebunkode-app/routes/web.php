@@ -4,14 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produk/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');
@@ -35,5 +40,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('messages/{message}', [MessageController::class, 'show'])->name('messages.show');
         Route::patch('messages/{message}/read', [MessageController::class, 'markAsRead'])->name('messages.toggle-read');
         Route::delete('messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
+
+        Route::get('seo', [SeoController::class, 'index'])->name('seo.index');
+        Route::put('seo/{pageKey}', [SeoController::class, 'update'])->name('seo.update');
+        Route::delete('seo/{pageKey}/image', [SeoController::class, 'removeImage'])->name('seo.remove-image');
     });
 });
